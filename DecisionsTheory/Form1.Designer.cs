@@ -299,11 +299,13 @@
             // 
             this.inputTableDgv.AllowUserToAddRows = false;
             this.inputTableDgv.AllowUserToDeleteRows = false;
+            this.inputTableDgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.inputTableDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.inputTableDgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.inputTableDgv.BackgroundColor = System.Drawing.SystemColors.Control;
             this.inputTableDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.inputTableDgv.Dock = System.Windows.Forms.DockStyle.Right;
             this.inputTableDgv.Location = new System.Drawing.Point(170, 3);
             this.inputTableDgv.Name = "inputTableDgv";
             this.inputTableDgv.RowHeadersWidth = 50;
@@ -472,6 +474,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 441);
             this.Controls.Add(this.tabControl);
+            this.MaximumSize = new System.Drawing.Size(1024, 768);
+            this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "Form1";
             this.Text = "Decisions Theory";
             this.tabControl.ResumeLayout(false);
