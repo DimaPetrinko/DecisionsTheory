@@ -16,6 +16,7 @@ namespace DecisionsTheory
         public Form1()
         {
             InitializeComponent();
+            Reset();
         }
 
         private void columnCountNud_ValueChanged(object sender, EventArgs e)
@@ -24,6 +25,13 @@ namespace DecisionsTheory
             {
                 Program.columnCount = (int)((NumericUpDown)sender).Value;
                 AddColumnsToTable(inputTableDgv);
+            }
+            AddRowsToTable(averagesTable1, Program.columnCount);
+            AddRowsToTable(averagesTable2, Program.columnCount);
+            for (int i = 0; i < averagesTable1.Rows.Count; i++)
+            {
+                averagesTable1.Rows[i].HeaderCell.Value = inputTableDgv.Columns[i].HeaderText;
+                averagesTable2.Rows[i].HeaderCell.Value = inputTableDgv.Columns[i].HeaderText;
             }
         }
 
@@ -36,28 +44,9 @@ namespace DecisionsTheory
             }
         }
 
-        private void AddColumnsToTable(DataGridView table)
-        {
-            table.ColumnCount = Program.columnCount;
-            for (int i = 0; i < table.ColumnCount; i++)
-            {
-                table.Columns[i].Name = "x" + (i + 1);
-            }
-            table.AutoResizeColumns();
-        }
-
-        private void AddRowsToTable(DataGridView table)
-        {
-            table.RowCount = Program.rowCount;
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                table.Rows[i].HeaderCell.Value = (i + 1).ToString();
-            }
-            table.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
-        }
-
         private void openXlsButton_Click_1(object sender, EventArgs e)
         {
+            Reset();
             string path = "";
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -79,6 +68,13 @@ namespace DecisionsTheory
                 inputTableDgv.ColumnCount = 0;
                 inputTableDgv.RowCount = 0;
 
+                inputTableDgv.DataSource = data;
+
+                for (int i = 0; i < inputTableDgv.RowCount; i++)
+                {
+                    inputTableDgv.Rows[i].HeaderCell.Value = (i + 1).ToString();
+                }
+
                 columnCountNud.Enabled = false;
                 rowCountNud.Enabled = false;
 
@@ -88,8 +84,110 @@ namespace DecisionsTheory
                 columnCountNud.Value = Program.columnCount;
                 rowCountNud.Value = Program.rowCount;
 
-                inputTableDgv.DataSource = data;
-            }         
+                PopulateAveragesTable(averagesTable1, inputTableDgv);
+                EnableTab(tabControl.TabPages[1], true);
+            }
+        }
+
+        private void calcAvgsButton_Click(object sender, EventArgs e)
+        {
+            PopulateAveragesTable(averagesTable1, inputTableDgv);
+            EnableTab(tabControl.TabPages[1], true);
+        }
+
+        private void calcAvgsButton2_Click(object sender, EventArgs e)
+        {
+            PopulateAveragesTable(averagesTable2, secondTable);
+            EnableTab(tabControl.TabPages[2], true);
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            Reset();
+        }
+
+        private void calculateSecondTableButton_Click(object sender, EventArgs e)
+        {
+            secondTable.ColumnCount = inputTableDgv.ColumnCount;
+            secondTable.RowCount = inputTableDgv.RowCount;
+            calculateSecondTable();
+            PopulateAveragesTable(averagesTable2, secondTable);
+            EnableTab(tabControl.TabPages[2], true);
+        }
+
+        private void AddColumnsToTable(DataGridView table)
+        {
+            table.ColumnCount = Program.columnCount;
+            for (int i = 0; i < table.ColumnCount; i++)
+            {
+                table.Columns[i].Name = "x" + (i + 1);
+            }
+            table.AutoResizeColumns();
+        }
+
+        private void AddRowsToTable(DataGridView table)
+        {
+            AddRowsToTable(table, Program.rowCount);
+        }
+
+        private void AddRowsToTable(DataGridView table, int count)
+        {
+            table.RowCount = count;
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                table.Rows[i].HeaderCell.Value = (i + 1).ToString();
+            }
+            //table.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+        }
+
+        private void Reset()
+        {
+            inputTableDgv.DataSource = null;
+
+            columnCountNud.Enabled = true;
+            rowCountNud.Enabled = true;
+            columnCountNud.Value = 0;
+            rowCountNud.Value = 0;
+
+            secondTable.ColumnCount = 0;
+            secondTable.RowCount = 0;
+
+            EnableTab(tabControl.TabPages[1], false);
+            EnableTab(tabControl.TabPages[2], false);
+        }
+
+        private void PopulateAveragesTable(DataGridView avgTable, DataGridView inputTable)
+        {
+            for (int i = 0; i < avgTable.Rows.Count; i++)
+            {
+                double avg = Program.GetAverage(inputTable, i);
+                avgTable.Rows[i].Cells[0].Value = String.Format("{0:0.0000}", avg);
+                avgTable.Rows[i].Cells[1].Value = String.Format("{0:0.0000}", Program.GetDispRoot(inputTable, avg, i));
+            }
+        }
+
+        private void calculateSecondTable()
+        {
+            for (int i = 0; i < secondTable.ColumnCount; i++)
+            {
+                secondTable.Columns[i].HeaderText = inputTableDgv.Columns[i].HeaderText;
+            }
+            for (int i = 0; i < secondTable.RowCount; i++)
+            {
+                secondTable.Rows[i].HeaderCell.Value = (i + 1).ToString();
+                for (int j = 0; j < secondTable.ColumnCount; j++)
+                {
+                    double x = Convert.ToDouble(inputTableDgv.Rows[i].Cells[j].Value);
+                    double avg = Convert.ToDouble(averagesTable1.Rows[j].Cells[0].Value);
+                    double sigma = Convert.ToDouble(averagesTable1.Rows[j].Cells[1].Value);
+                    secondTable.Rows[i].Cells[j].Value = String.Format("{0:0.0000}", (x - avg) / sigma);
+                }
+            }
+        }
+
+        public static void EnableTab(TabPage page, bool enable)
+        {
+            foreach (Control ctl in page.Controls) ctl.Enabled = enable;
         }
     }
 }
