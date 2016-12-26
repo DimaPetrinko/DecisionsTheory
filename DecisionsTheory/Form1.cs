@@ -86,6 +86,7 @@ namespace DecisionsTheory
 
                 PopulateAveragesTable(averagesTable1, inputTableDgv);
                 EnableTab(tabControl.TabPages[1], true);
+                con.Close();
             }
         }
 
@@ -110,7 +111,7 @@ namespace DecisionsTheory
         {
             secondTable.ColumnCount = inputTableDgv.ColumnCount;
             secondTable.RowCount = inputTableDgv.RowCount;
-            calculateSecondTable();
+            CalculateSecondTable();
             PopulateAveragesTable(averagesTable2, secondTable);
             EnableTab(tabControl.TabPages[2], true);
         }
@@ -136,8 +137,7 @@ namespace DecisionsTheory
             for (int i = 0; i < table.RowCount; i++)
             {
                 table.Rows[i].HeaderCell.Value = (i + 1).ToString();
-            }
-            //table.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+            }            
         }
 
         private void Reset()
@@ -146,11 +146,18 @@ namespace DecisionsTheory
 
             columnCountNud.Enabled = true;
             rowCountNud.Enabled = true;
+
             columnCountNud.Value = 0;
             rowCountNud.Value = 0;
 
             secondTable.ColumnCount = 0;
             secondTable.RowCount = 0;
+
+            corTable.ColumnCount = 0;
+            corTable.RowCount = 0;
+
+            signifCoefTable.ColumnCount = 0;
+            signifCoefTable.RowCount = 0;
 
             EnableTab(tabControl.TabPages[1], false);
             EnableTab(tabControl.TabPages[2], false);
@@ -161,12 +168,12 @@ namespace DecisionsTheory
             for (int i = 0; i < avgTable.Rows.Count; i++)
             {
                 double avg = Program.GetAverage(inputTable, i);
-                avgTable.Rows[i].Cells[0].Value = String.Format("{0:0.0000}", avg);
-                avgTable.Rows[i].Cells[1].Value = String.Format("{0:0.0000}", Program.GetDispRoot(inputTable, avg, i));
+                avgTable.Rows[i].Cells[0].Value = String.Format(Program.TABLE_FORMAT, avg);
+                avgTable.Rows[i].Cells[1].Value = String.Format(Program.TABLE_FORMAT, Program.GetDispRoot(inputTable, avg, i));
             }
         }
 
-        private void calculateSecondTable()
+        private void CalculateSecondTable()
         {
             for (int i = 0; i < secondTable.ColumnCount; i++)
             {
@@ -180,7 +187,75 @@ namespace DecisionsTheory
                     double x = Convert.ToDouble(inputTableDgv.Rows[i].Cells[j].Value);
                     double avg = Convert.ToDouble(averagesTable1.Rows[j].Cells[0].Value);
                     double sigma = Convert.ToDouble(averagesTable1.Rows[j].Cells[1].Value);
-                    secondTable.Rows[i].Cells[j].Value = String.Format("{0:0.0000}", (x - avg) / sigma);
+                    secondTable.Rows[i].Cells[j].Value = String.Format(Program.TABLE_FORMAT, (x - avg) / sigma);
+                }
+            }
+        }
+
+        private void CalculateCorTable()
+        {
+            corTable.ColumnCount = inputTableDgv.ColumnCount;
+            corTable.RowCount = inputTableDgv.ColumnCount;
+            for (int i = 0; i < corTable.ColumnCount; i++)
+            {
+                corTable.Columns[i].HeaderText = inputTableDgv.Columns[i].HeaderText;
+                corTable.Rows[i].HeaderCell.Value = inputTableDgv.Columns[i].HeaderText;
+            }
+            for (int i = 0; i < corTable.RowCount; i++)
+            {
+                for (int j = 0; j < corTable.ColumnCount; j++)
+                {
+                    double sum = 0;
+                    double xA = Convert.ToDouble(averagesTable2.Rows[i].Cells[0].Value);
+                    double yA = Convert.ToDouble(averagesTable2.Rows[j].Cells[0].Value);
+                    double xSigma = Convert.ToDouble(averagesTable2.Rows[i].Cells[1].Value);
+                    double ySigma = Convert.ToDouble(averagesTable2.Rows[j].Cells[1].Value);
+                    for (int k = 0; k < Program.rowCount; k++)
+                    {
+                        double x = Convert.ToDouble(secondTable.Rows[k].Cells[i].Value);
+                        double y = Convert.ToDouble(secondTable.Rows[k].Cells[j].Value);
+
+                        sum += (x - xA) * (y - yA);
+                    }
+                    double result = (sum / Program.rowCount) / (xSigma * ySigma);
+                    result = result > 1.0f ? 1.0f : result;
+                    result = result < -1.0f ? -1.0f : result;
+                    corTable.Rows[i].Cells[j].Value = String.Format(Program.TABLE_FORMAT, result);
+                    if (Convert.ToDouble(corTable.Rows[i].Cells[j].Value) >= 0.75f)
+                    {
+                        corTable.Rows[i].Cells[j].Style.BackColor = Color.FromArgb(193, 235, 255);
+                    }
+                }
+            }
+        }
+
+        private void CalculateSignifCoefTable()
+        {
+            signifCoefTable.ColumnCount = inputTableDgv.ColumnCount;
+            signifCoefTable.RowCount = inputTableDgv.ColumnCount;
+            for (int i = 0; i < corTable.ColumnCount; i++)
+            {
+                signifCoefTable.Columns[i].HeaderText = inputTableDgv.Columns[i].HeaderText;
+                signifCoefTable.Rows[i].HeaderCell.Value = inputTableDgv.Columns[i].HeaderText;
+            }
+            for (int i = 0; i < signifCoefTable.RowCount; i++)
+            {
+                for (int j = 0; j < signifCoefTable.ColumnCount; j++)
+                {
+                    double r = Convert.ToDouble(corTable.Rows[i].Cells[j].Value);
+                    double result = r * (Math.Sqrt(Program.rowCount - 2) / Math.Sqrt(1 - (r * r)));
+                    if (r < 1 && r > -1)
+                    {
+                        signifCoefTable.Rows[i].Cells[j].Value = String.Format(Program.TABLE_FORMAT, result);
+                    }
+                    else
+                    {
+                        string s = "";
+                        if (r <= -1)
+                            s = "-";
+                        s += "∞";
+                        signifCoefTable.Rows[i].Cells[j].Value = s;
+                    }
                 }
             }
         }
@@ -188,6 +263,27 @@ namespace DecisionsTheory
         public static void EnableTab(TabPage page, bool enable)
         {
             foreach (Control ctl in page.Controls) ctl.Enabled = enable;
+        }
+
+        private void calculateCorTableButton_Click(object sender, EventArgs e)
+        {
+            CalculateCorTable();
+            CalculateSignifCoefTable();
+        }
+
+        private void calcSignifCoefButton_Click(object sender, EventArgs e)
+        {
+            CalculateSignifCoefTable();
+        }
+
+        private void saveInDocButton_Click(object sender, EventArgs e)
+        {
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+                Program.ExportDataToWord(corTable, saveFileDialog1.FileName);
+            }
         }
     }
 }
