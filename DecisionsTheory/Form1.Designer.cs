@@ -52,8 +52,6 @@
             this.calcAvgsButton2 = new System.Windows.Forms.Button();
             this.panel9 = new System.Windows.Forms.Panel();
             this.averagesTable2 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -68,13 +66,15 @@
             this.calcAvgsButton1 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.averagesTable1 = new System.Windows.Forms.DataGridView();
-            this.Average = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DispersionRoot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel5 = new System.Windows.Forms.Panel();
             this.resetButton = new System.Windows.Forms.Button();
             this.inputTableDgv = new System.Windows.Forms.DataGridView();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.Average = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DispersionRoot = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.signifCoefTable)).BeginInit();
@@ -120,7 +120,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(616, 415);
             this.tabPage3.TabIndex = 3;
-            this.tabPage3.Text = "Final Step";
+            this.tabPage3.Text = "Останній крок";
             // 
             // panel6
             // 
@@ -198,7 +198,7 @@
             this.calculateCorTableButton.Name = "calculateCorTableButton";
             this.calculateCorTableButton.Size = new System.Drawing.Size(151, 24);
             this.calculateCorTableButton.TabIndex = 4;
-            this.calculateCorTableButton.Text = "Calculate the data";
+            this.calculateCorTableButton.Text = "Розрахувати дані";
             this.calculateCorTableButton.UseVisualStyleBackColor = true;
             this.calculateCorTableButton.Click += new System.EventHandler(this.calculateCorTableButton_Click);
             // 
@@ -221,7 +221,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(157, 20);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Next Step:";
+            this.label2.Text = "Далі:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // calcSignifCoefButton
@@ -233,7 +233,7 @@
             this.calcSignifCoefButton.Name = "calcSignifCoefButton";
             this.calcSignifCoefButton.Size = new System.Drawing.Size(151, 24);
             this.calcSignifCoefButton.TabIndex = 4;
-            this.calcSignifCoefButton.Text = "Calculate Significance Coef.";
+            this.calcSignifCoefButton.Text = "Коефіціент значимості";
             this.calcSignifCoefButton.UseVisualStyleBackColor = true;
             this.calcSignifCoefButton.Click += new System.EventHandler(this.calcSignifCoefButton_Click);
             // 
@@ -256,7 +256,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(157, 20);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Output:";
+            this.label1.Text = "Експорт:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // saveInDocButton
@@ -268,7 +268,7 @@
             this.saveInDocButton.Name = "saveInDocButton";
             this.saveInDocButton.Size = new System.Drawing.Size(151, 24);
             this.saveInDocButton.TabIndex = 5;
-            this.saveInDocButton.Text = "Save in doc";
+            this.saveInDocButton.Text = "Експорт у Word";
             this.saveInDocButton.UseVisualStyleBackColor = true;
             this.saveInDocButton.Click += new System.EventHandler(this.saveInDocButton_Click);
             // 
@@ -283,7 +283,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(616, 415);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Second Step";
+            this.tabPage2.Text = "Другий крок";
             // 
             // secondTable
             // 
@@ -330,7 +330,7 @@
             this.calculateSecondTableButton.Name = "calculateSecondTableButton";
             this.calculateSecondTableButton.Size = new System.Drawing.Size(151, 24);
             this.calculateSecondTableButton.TabIndex = 4;
-            this.calculateSecondTableButton.Text = "Calculate the data";
+            this.calculateSecondTableButton.Text = "Розрахувати дані";
             this.calculateSecondTableButton.UseVisualStyleBackColor = true;
             this.calculateSecondTableButton.Click += new System.EventHandler(this.calculateSecondTableButton_Click);
             // 
@@ -353,7 +353,7 @@
             this.nextStepLabel2.Name = "nextStepLabel2";
             this.nextStepLabel2.Size = new System.Drawing.Size(157, 20);
             this.nextStepLabel2.TabIndex = 8;
-            this.nextStepLabel2.Text = "Next Step:";
+            this.nextStepLabel2.Text = "Далі:";
             this.nextStepLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // calcAvgsButton2
@@ -365,7 +365,7 @@
             this.calcAvgsButton2.Name = "calcAvgsButton2";
             this.calcAvgsButton2.Size = new System.Drawing.Size(151, 24);
             this.calcAvgsButton2.TabIndex = 4;
-            this.calcAvgsButton2.Text = "Calculate Avg and Disp";
+            this.calcAvgsButton2.Text = "Розрах. сер. зн. і дисп.";
             this.calcAvgsButton2.UseVisualStyleBackColor = true;
             this.calcAvgsButton2.Click += new System.EventHandler(this.calcAvgsButton2_Click);
             // 
@@ -400,20 +400,6 @@
             this.averagesTable2.Size = new System.Drawing.Size(157, 302);
             this.averagesTable2.TabIndex = 8;
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Avg";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 51;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "σ";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 39;
-            // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
@@ -424,7 +410,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(616, 415);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "First Step";
+            this.tabPage1.Text = "Перший крок";
             // 
             // flowLayoutPanel1
             // 
@@ -465,20 +451,20 @@
             // columnCountLabel
             // 
             this.columnCountLabel.AutoSize = true;
-            this.columnCountLabel.Location = new System.Drawing.Point(23, 5);
+            this.columnCountLabel.Location = new System.Drawing.Point(20, 3);
             this.columnCountLabel.Name = "columnCountLabel";
-            this.columnCountLabel.Size = new System.Drawing.Size(50, 13);
+            this.columnCountLabel.Size = new System.Drawing.Size(53, 13);
             this.columnCountLabel.TabIndex = 1;
-            this.columnCountLabel.Text = "Columns:";
+            this.columnCountLabel.Text = "Колонок:";
             // 
             // rowCountLabel
             // 
             this.rowCountLabel.AutoSize = true;
-            this.rowCountLabel.Location = new System.Drawing.Point(36, 23);
+            this.rowCountLabel.Location = new System.Drawing.Point(30, 23);
             this.rowCountLabel.Name = "rowCountLabel";
-            this.rowCountLabel.Size = new System.Drawing.Size(37, 13);
+            this.rowCountLabel.Size = new System.Drawing.Size(43, 13);
             this.rowCountLabel.TabIndex = 3;
-            this.rowCountLabel.Text = "Rows:";
+            this.rowCountLabel.Text = "Рядків:";
             // 
             // rowCountNud
             // 
@@ -506,7 +492,7 @@
             this.openXlsButton.Name = "openXlsButton";
             this.openXlsButton.Size = new System.Drawing.Size(151, 24);
             this.openXlsButton.TabIndex = 4;
-            this.openXlsButton.Text = "Open xls";
+            this.openXlsButton.Text = "Імпорт з Excel";
             this.openXlsButton.UseVisualStyleBackColor = true;
             this.openXlsButton.Click += new System.EventHandler(this.openXlsButton_Click_1);
             // 
@@ -529,7 +515,7 @@
             this.nextStepLabel1.Name = "nextStepLabel1";
             this.nextStepLabel1.Size = new System.Drawing.Size(157, 20);
             this.nextStepLabel1.TabIndex = 8;
-            this.nextStepLabel1.Text = "Next Step:";
+            this.nextStepLabel1.Text = "Далі:";
             this.nextStepLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // calcAvgsButton1
@@ -541,7 +527,7 @@
             this.calcAvgsButton1.Name = "calcAvgsButton1";
             this.calcAvgsButton1.Size = new System.Drawing.Size(151, 24);
             this.calcAvgsButton1.TabIndex = 4;
-            this.calcAvgsButton1.Text = "Calculate Avg and Disp";
+            this.calcAvgsButton1.Text = "Розрах. сер. зн. і дисп.";
             this.calcAvgsButton1.UseVisualStyleBackColor = true;
             this.calcAvgsButton1.Click += new System.EventHandler(this.calcAvgsButton_Click);
             // 
@@ -576,20 +562,6 @@
             this.averagesTable1.Size = new System.Drawing.Size(157, 212);
             this.averagesTable1.TabIndex = 8;
             // 
-            // Average
-            // 
-            this.Average.HeaderText = "Avg";
-            this.Average.Name = "Average";
-            this.Average.ReadOnly = true;
-            this.Average.Width = 51;
-            // 
-            // DispersionRoot
-            // 
-            this.DispersionRoot.HeaderText = "σ";
-            this.DispersionRoot.Name = "DispersionRoot";
-            this.DispersionRoot.ReadOnly = true;
-            this.DispersionRoot.Width = 39;
-            // 
             // panel5
             // 
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -610,7 +582,7 @@
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(151, 24);
             this.resetButton.TabIndex = 4;
-            this.resetButton.Text = "Reset";
+            this.resetButton.Text = "Очистити";
             this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
@@ -647,6 +619,34 @@
             // 
             this.saveFileDialog1.Filter = "Word Documents (*.docx)|*.docx";
             // 
+            // Average
+            // 
+            this.Average.HeaderText = "Сер.зн";
+            this.Average.Name = "Average";
+            this.Average.ReadOnly = true;
+            this.Average.Width = 66;
+            // 
+            // DispersionRoot
+            // 
+            this.DispersionRoot.HeaderText = "σ";
+            this.DispersionRoot.Name = "DispersionRoot";
+            this.DispersionRoot.ReadOnly = true;
+            this.DispersionRoot.Width = 39;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Сер.зн";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 66;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "σ";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 39;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -659,7 +659,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "Form1";
-            this.Text = "Decisions Theory";
+            this.Text = "Теорія прийняття рішень";
             this.tabPage3.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.signifCoefTable)).EndInit();
@@ -714,8 +714,6 @@
         private System.Windows.Forms.Button calcAvgsButton2;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.DataGridView averagesTable2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel panel2;
@@ -730,8 +728,6 @@
         private System.Windows.Forms.Button calcAvgsButton1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.DataGridView averagesTable1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Average;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DispersionRoot;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.DataGridView inputTableDgv;
@@ -740,6 +736,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button saveInDocButton;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Average;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DispersionRoot;
     }
 }
 
